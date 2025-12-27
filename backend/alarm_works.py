@@ -22,19 +22,26 @@ def main():
         )
         """
         )
-
-        # --- INSERT EXAMPLE ---
-        cursor.execute(
-            """
-        INSERT OR IGNORE INTO alarm VALUES
-        ("Wake up", "u gotta go, now", "routine", "9:00", "everyday")
-        """
-        )
         db.commit()
 
         # --- SELECT ---
-        cursor.execute("SELECT * FROM alarm")
-        print(cursor.fetchone())
+        cursor.execute(
+            "SELECT alarm_name, alarm_description, alarm_category, alarm_time, alarm_day FROM alarm ORDER BY alarm_time"
+        )
+
+        rows = cursor.fetchall()
+
+    if not rows:
+        print("There`s no alarm in this DB.")
+    else:
+        for row in rows:
+            name, desc, category, time, day = row
+            print(f"🔔 {name}")
+            print(f"   Description: {desc}")
+            print(f"   Category: {category}")
+            print(f"   Time: {time}")
+            print(f"   Day(-s): {day}")
+            print("-" * 30)
 
 
 if __name__ == "__main__":
